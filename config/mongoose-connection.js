@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
-
+const debug = require("debug")("development:mongoose");
 mongoose
-    .connect("mongodb://127.0.0.1:27017/modalss")
+    .connect(`${process.env.MONGODB_URI}/${process.env.DATABASE}`)
     .then(function () {
-        console.log("connected");
+        debug("connected");
     })
     .catch(function (err) {
-        console.log(err);
+        debug(err);
     })
 
 module.exports = mongoose.connection;
