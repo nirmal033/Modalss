@@ -4,6 +4,7 @@ const ownerModel = require("../models/owner");
 const upload = require("../config/multer-config");
 const multer = require("../config/multer-config");
 const { CATEGORIES, SIZES } = require("../constants/productConstants");
+const validateProduct = require("../middlewares/productValidators");
 
 if (process.env.NODE_ENV === "development") {
     router.post("/create", async function (req, res) {
@@ -31,12 +32,16 @@ router.get("/", function (req, res) {
     res.send("KINJALNIRMAL");
 })
 
+
+
 router.get("/admin", function (req, res) {
     res.render("admidashboard");
 })
 
 router.get("/admin/create", function (req, res) {
     res.render("createproducts", {
+        error: req.flash("error"),
+        success: req.flash("success"),
         categories: CATEGORIES,
         sizes: SIZES,
     });

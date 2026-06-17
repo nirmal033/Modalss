@@ -23,74 +23,83 @@
                     ← Back
                 </a>
             </div>
-
-            <form method="post" action="/products/create" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label>Product Image</label>
-                    <input type="file" name="image">
+            <%if(error && error.length>0){%>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= error[0]%>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
                 </div>
+                <%}%>
 
-                <div class="form-group">
-                    <label>Product Name</label>
-                    <input type="text" placeholder="Enter product name">
-                </div>
-
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea rows="5"></textarea>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-md-6">
+                    <form method="post" action="/products/create" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label>Price</label>
-                            <input type="number">
+                            <label>Product Image</label>
+                            <input type="file" name="image">
                         </div>
-                    </div>
 
-                    <div class="col-md-6">
                         <div class="form-group">
-                            <label>Discount %</label>
-                            <input type="number">
+                            <label>Product Name</label>
+                            <input type="text" placeholder="Enter product name" name="name">
+
                         </div>
-                    </div>
 
-                </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea rows="5" name="description"></textarea>
+                        </div>
 
-                <div class="form-group">
-                    <label>Category</label>
+                        <div class="row">
 
-                    <select>
-                        <option>Women</option>
-                        <option>Men</option>
-                        <option>Accessories</option>
-                        <option>Footwear</option>
-                    </select>
-                </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input type="number" name="price">
+                                </div>
+                            </div>
 
-                <div class="form-group">
-                    <label>Available Sizes</label>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Discount %</label>
+                                    <input type="number" name="discount">
+                                </div>
+                            </div>
 
-                    <div class="sizes">
-                        <label><input type="checkbox"> XS</label>
-                        <label><input type="checkbox"> S</label>
-                        <label><input type="checkbox"> M</label>
-                        <label><input type="checkbox"> L</label>
-                        <label><input type="checkbox"> XL</label>
-                    </div>
-                </div>
+                        </div>
 
-                <div class="form-group">
-                    <label>Stock Quantity</label>
-                    <input type="number">
-                </div>
+                        <div class="form-group">
+                            <label>Category</label>
 
-                <button type="submit" class="save-btn">
-                    Create Product
-                </button>
+                            <select name="category">
+                                <% categories.forEach(function(category){ %>
+                                    <option value="<%= category%>">
+                                        <%= category%>
+                                    </option>
+                                    <% })%>
+                            </select>
+                        </div>
 
-            </form>
+                        <div class="form-group">
+                            <label>Available Sizes</label>
+
+                            <div class="sizes">
+                                <%sizes.forEach(function(size){ %>
+                                    <label><input type="checkbox" name="sizes" value="<%=size%>">
+                                        <%= size%>
+                                    </label>
+                                    <% })%>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Stock Quantity</label>
+                            <input type="number" name="stock">
+                        </div>
+
+                        <button type="submit" class="save-btn">
+                            Create Product
+                        </button>
+
+                    </form>
 
         </div>
 
