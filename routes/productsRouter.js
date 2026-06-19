@@ -47,10 +47,8 @@ router.post("/create", upload.single("image"), validateProduct, async function (
             sizes,
             stock,
         });
-        console.log(req.body);
-        res.send(req.file);
-        // req.flash("success", "Product succesfully created");
-        // res.redirect("/owners/admin");
+        req.flash("success", "Product succesfully created");
+        res.redirect("/owners/admin");
     } catch (err) {
         req.flash("error", err.message);
         res.redirect("/products/create");

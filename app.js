@@ -17,6 +17,7 @@ const ownersRouter = require("./routes/ownersRouter");
 const usersRouter = require("./routes/usersRouter");
 const productsRouter = require("./routes/productsRouter");
 const indexRouter = require("./routes/indexRouter");
+const cartRouter = require("./routes/cartRouter");
 // const authRouter = require("./routes/authRouter");
 
 
@@ -42,6 +43,7 @@ app.use("/", indexRouter);
 app.use("/owners", ownersRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
+app.use("/cart", cartRouter);
 
 // API AUTH Router
 // app.use("/api/auth", authRouter);

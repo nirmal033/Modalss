@@ -89,44 +89,36 @@
                     </thead>
 
                     <tbody>
+                        <% products.forEach(function(product){%>
+                            <tr>
+                                <td>
+                                    <img src="data:<%= product.image.contentType %>;base64,<%= product.image.data.toString('base64') %>"
+                                        class="product-img">
+                                </td>
 
-                        <tr>
-                            <td>
-                                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=100"
-                                    class="product-img">
-                            </td>
+                                <td>
+                                    <%=product.name%>
+                                </td>
+                                <td>
+                                    <%=product.category%>
+                                </td>
+                                <td>
+                                    <%= product.price%>
+                                </td>
+                                <td>
+                                    <%=product.discount%>
+                                </td>
+                                <td>
+                                    <%=product.stock%>
+                                </td>
 
-                            <td>Bloom Wrap Sundress</td>
-                            <td>Women</td>
-                            <td>₹2,199</td>
-                            <td>0%</td>
-                            <td>52</td>
-
-                            <td>
-                                <button class="btn-view">View</button>
-                                <button class="btn-edit">Edit</button>
-                                <button class="btn-delete">Delete</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=100"
-                                    class="product-img">
-                            </td>
-
-                            <td>Desert Linen Co-ord Set</td>
-                            <td>Women</td>
-                            <td>₹3,149</td>
-                            <td>30%</td>
-                            <td>18</td>
-
-                            <td>
-                                <button class="btn-view">View</button>
-                                <button class="btn-edit">Edit</button>
-                                <button class="btn-delete">Delete</button>
-                            </td>
-                        </tr>
+                                <td>
+                                    <button class="btn-view">View</button>
+                                    <button class="btn-edit">Edit</button>
+                                    <button class="btn-delete">Delete</button>
+                                </td>
+                            </tr>
+                            <%})%>
 
                     </tbody>
 

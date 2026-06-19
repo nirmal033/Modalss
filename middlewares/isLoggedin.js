@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const isLoggedin = async function (req, res, next) {
     if (!req.cookies.token) {
         req.flash("error", "You have to login first");
-        res.redirect("/");
+        return res.redirect("/");
     }
 
     try {

@@ -5,6 +5,7 @@ const upload = require("../config/multer-config");
 const multer = require("../config/multer-config");
 const { CATEGORIES, SIZES } = require("../constants/productConstants");
 const validateProduct = require("../middlewares/productValidators");
+const productModel = require("../models/product");
 
 if (process.env.NODE_ENV === "development") {
     router.post("/create", async function (req, res) {
@@ -34,8 +35,9 @@ router.get("/", function (req, res) {
 
 
 
-router.get("/admin", function (req, res) {
-    res.render("admidashboard");
+router.get("/admin", async function (req, res) {
+    let products = await productModel.find();
+    res.render("admidashboard", { products });
 })
 
 router.get("/admin/create", function (req, res) {

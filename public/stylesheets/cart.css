@@ -1,0 +1,125 @@
+/* ========================================================
+   MODALSS — Advanced Adaptive Shopping Cart Extensions Block
+   ======================================================== */
+
+/* --- Cart Container Structure Block --- */
+.cart-items-wrapper {
+    background-color: var(--white);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-card);
+    padding: 2rem;
+    box-shadow: var(--shadow-card);
+}
+
+/* --- Item Component Line Row Elements --- */
+.cart-item-row {
+    transition: var(--transition);
+}
+
+.cart-item-row:last-child {
+    border-bottom: none !important;
+}
+
+.cart-img-wrap img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background-color: var(--off-white);
+    border: 1px solid rgba(85, 73, 181, 0.1);
+}
+
+.cart-item-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.cart-item-price {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    color: var(--purple-deep);
+    font-size: 1.2rem;
+}
+
+/* --- Control Buttons Components Overrides --- */
+.cart-remove-btn {
+    border: none !important;
+    background: none !important;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.cart-remove-btn:hover {
+    background-color: rgba(155, 47, 26, 0.08) !important;
+    color: var(--red-light) !important;
+}
+
+.btn-outline-purple-custom {
+    color: var(--purple-mid);
+    background-color: var(--white);
+    border: 1.5px solid var(--border-soft);
+    border-radius: var(--radius-btn);
+    transition: var(--transition);
+}
+
+.btn-outline-purple-custom:hover {
+    background-color: var(--purple-glow-heavy);
+    border-color: var(--purple-mid);
+    color: var(--purple-mid);
+}
+
+/* --- Summary Panel Frame Elements --- */
+.cart-summary-sidebar {
+    background-color: var(--white);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    position: sticky;
+    top: 90px;
+    /* Accounts for floating sticky upper navbar */
+}
+
+.font-outfit {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* ========================================================
+   MEDIA QUERIES — Mobile and Screen Adjustments
+   ======================================================== */
+
+@media (max-width: 767.98px) {
+    .cart-items-wrapper {
+        padding: 1.25rem;
+    }
+
+    .cart-item-title {
+        font-size: 1rem;
+    }
+
+    .cart-item-price {
+        font-size: 1.05rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+
+    /* Stack layout metrics presentation items elegantly on mobile screen limits */
+    .cart-price-wrap {
+        text-align: left !important;
+        margin-top: 0.5rem;
+    }
+
+    .cart-qty-wrap {
+        text-align: center !important;
+        margin-top: 0.5rem;
+    }
+
+    .cart-qty-wrap input {
+        margin-left: 0 !important;
+    }
+
+    .cart-action-wrap {
+        margin-top: 0.5rem;
+    }
+}
