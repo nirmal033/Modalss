@@ -1,15 +1,125 @@
 <%- include('./partials/header') %>
 
-    <main class="container-fluid px-4 my-4">
+    <style>
+        :root {
+            --purple-primary: #6f42c1;
+            --purple-hover: #59339d;
+            --bg-light-soft: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --transition-smooth: all 0.2s ease-in-out;
+        }
+
+        /* Modern Layout Cards */
+        .cart-item-card {
+            background: #ffffff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition-smooth);
+        }
+
+        .cart-item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Uniform Image Ratios */
+        .cart-product-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: var(--bg-light-soft);
+        }
+
+        /* Custom Modern Quantity Control Badge (Pure Form) */
+        .modern-qty-group {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--bg-light-soft);
+            border: 1px solid #dddddd;
+            border-radius: 30px;
+            padding: 4px;
+        }
+
+        .modern-qty-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: #ffffff;
+            color: #333333;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: var(--transition-smooth);
+        }
+
+        .modern-qty-btn:hover {
+            background-color: var(--purple-primary);
+            color: #ffffff;
+        }
+
+        .modern-qty-value {
+            width: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #212529;
+            text-align: center;
+            user-select: none;
+        }
+
+        /* Modern Summary Sidebar Box */
+        .checkout-summary-card {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #eaeaea;
+            box-shadow: var(--card-shadow);
+        }
+
+        .btn-checkout-primary {
+            background-color: var(--purple-primary);
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: var(--transition-smooth);
+            border: none;
+        }
+
+        .btn-checkout-primary:hover {
+            background-color: var(--purple-hover);
+            color: #ffffff;
+        }
+
+        /* Trash button enhancements */
+        .btn-remove-item {
+            background: none;
+            border: none;
+            color: #dc3545;
+            opacity: 0.7;
+            transition: var(--transition-smooth);
+            padding: 8px;
+        }
+
+        .btn-remove-item:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+    </style>
+
+    <main class="container-fluid px-4 my-5">
         <% if (error && error.length> 0) { %>
-            <div class="alert-flash-error d-flex align-items-center justify-content-between p-3 mb-4" role="alert">
+            <div class="alert alert-danger d-flex align-items-center justify-content-between border-0 shadow-sm p-3 mb-4 rounded-3"
+                role="alert">
                 <div class="d-flex align-items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                         class="bi bi-exclamation-triangle-fill flex-shrink-0" viewBox="0 0 16 16">
                         <path
                             d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                     </svg>
-                    <span class="flash-message-text small fw-medium">
+                    <span class="small fw-medium">
                         <%= error[0] %>
                     </span>
                 </div>
@@ -17,7 +127,7 @@
             <% } %>
 
                 <% if (success && success.length> 0) { %>
-                    <div class="alert-flash-success d-flex align-items-center justify-content-between p-3 mb-4"
+                    <div class="alert alert-success d-flex align-items-center justify-content-between border-0 shadow-sm p-3 mb-4 rounded-3"
                         role="alert">
                         <div class="d-flex align-items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -25,125 +135,147 @@
                                 <path
                                     d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
                             </svg>
-                            <span class="flash-success-text small fw-medium">
+                            <span class="small fw-medium">
                                 <%= success[0] %>
                             </span>
                         </div>
                     </div>
                     <% } %>
-                        <div class="text-start mb-4">
-                            <span class="shop-greeting">Your Basket</span>
-                            <h1 class="shop-title mt-2">Shopping Cart</h1>
+
+                        <div class="text-start mb-4 pb-2">
+                            <span class="text-uppercase tracking-wider text-muted small fw-bold">Your Basket</span>
+                            <h1 class="h2 fw-bold text-dark mt-1">Shopping Cart</h1>
                         </div>
 
                         <% if (cart && cart.products.length> 0) { %>
-                            <form action="/cart/update" method="POST" class="row g-4">
+                            <div class="row g-4">
 
                                 <div class="col-12 col-lg-8">
-                                    <div class="cart-items-wrapper">
-
-                                        <% cart.products.forEach(function(product, index) { %>
+                                    <div class="d-flex flex-column gap-3">
+                                        <% cart.products.forEach(function(product) { %>
                                             <div
-                                                class="cart-item-row d-flex align-items-center flex-wrap py-3 border-bottom">
+                                                class="cart-item-card p-3 d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap gap-3">
 
-                                                <div class="cart-img-wrap col-3 col-sm-2 col-md-2 mb-2 mb-sm-0">
+                                                <div class="flex-shrink-0" style="width: 75px;">
                                                     <img src="data:<%= product.productId.image.contentType %>;base64,<%= product.productId.image.data.toString('base64') %>"
-                                                        alt="<%= product.productId.name %>" class="img-fluid rounded">
+                                                        alt="<%= product.productId.name %>" class="cart-product-img">
                                                 </div>
 
-                                                <div
-                                                    class="cart-details-wrap col-9 col-sm-4 col-md-5 ps-3 mb-2 mb-sm-0">
-                                                    <h4 class="cart-item-title mb-1">
+                                                <div class="flex-grow-1 min-w-0 ps-2">
+                                                    <h5 class="text-truncate h6 fw-bold mb-1 text-dark">
                                                         <%= product.productId.name %>
-                                                    </h4>
-                                                    <p class="cart-item-meta mb-0 text-muted small">Variant: <span
-                                                            class="fw-medium">Standard</span></p>
-
-                                                    <input type="hidden" name="items[<%= index %>][product_id]"
-                                                        value="<%= product.productId._id %>">
+                                                    </h5>
+                                                    <p class="text-muted mb-0 small">Variant: <span
+                                                            class="badge bg-light text-dark border fw-normal">Standard</span>
+                                                    </p>
                                                 </div>
 
-                                                <div class="cart-price-wrap col-4 col-sm-2 text-sm-center">
-                                                    <span class="cart-item-price">
-                                                        ₹<%= product.productId.price %>
+                                                <div class="text-sm-center px-2">
+                                                    <span class="fw-bold text-dark fs-6">₹<%= product.productId.price %>
                                                     </span>
                                                 </div>
 
-                                                <div class="cart-qty-wrap col-4 col-sm-2 text-center">
-                                                    <input type="number" name="items[<%= index %>][quantity]"
-                                                        class="form-control form-control-custom-shop text-center py-1 mx-auto"
-                                                        value="<%= product.quantity %>" min="1" max="99"
-                                                        style="max-width: 70px; border: 1px solid var(--border-soft);">
+                                                <div class="text-center px-2">
+                                                    <div class="modern-qty-group">
+                                                        <form action="/cart/decrease/<%= product.productId._id%>"
+                                                            method="POST" class="m-0 d-inline">
+                                                            <input type="hidden" name="product_id"
+                                                                value="<%= product.quantity %>">
+                                                            <button type="submit" class="modern-qty-btn"
+                                                                aria-label="Decrease quantity">-</button>
+                                                        </form>
+
+                                                        <span class="modern-qty-value">
+                                                            <%= product.quantity %>
+                                                        </span>
+
+                                                        <form action="/cart/increase/<%= product.productId._id%>"
+                                                            method="POST" class="m-0 d-inline">
+                                                            <input type="hidden" name="product_id"
+                                                                value="<%= product.quantity %>">
+                                                            <button type="submit" class="modern-qty-btn"
+                                                                aria-label="Increase quantity">+</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
 
-                                                <div class="cart-action-wrap col-4 col-sm-2 text-end">
-                                                    <button type="submit"
-                                                        formaction="/cart/remove/<%= product.productId._id %>"
-                                                        class="btn btn-transparent text-muted cart-remove-btn p-2"
-                                                        title="Remove Item">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                                            fill="currentColor" class="bi bi-trash3"
-                                                            viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.991 16h6.018a2 2 0 0 0 1.996-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92H4.991a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
-                                                        </svg>
-                                                    </button>
+                                                <div class="text-end ps-2">
+                                                    <form action="/cart/remove/<%= product.productId._id %>"
+                                                        method="POST" class="m-0">
+                                                        <button type="submit" class="btn-remove-item"
+                                                            title="Remove from Cart">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                                height="20" fill="currentColor" class="bi bi-trash3"
+                                                                viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.991 16h6.018a2 2 0 0 0 1.996-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92H4.991a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
                                                 </div>
+
                                             </div>
                                             <% }) %>
+                                    </div>
 
-                                                <div class="d-flex justify-content-between align-items-center mt-4">
-                                                    <a href="/users/shop"
-                                                        class="text-decoration-none small fw-semibold link-forgot d-inline-flex align-items-center gap-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            fill="currentColor" viewBox="0 0 16 16">
-                                                            <path fill-rule="evenodd"
-                                                                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-                                                        </svg>
-                                                        Continue Shopping
-                                                    </a>
-                                                    <button type="submit"
-                                                        class="btn btn-outline-purple-custom py-2 px-3 small fw-semibold">
-                                                        Update Quantities
-                                                    </button>
-                                                </div>
-
+                                    <div class="mt-4">
+                                        <a href="/users/shop"
+                                            class="btn btn-link text-decoration-none text-muted d-inline-flex align-items-center gap-2 small fw-bold p-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                                            </svg>
+                                            Continue Shopping
+                                        </a>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-lg-4">
-                                    <div class="cart-summary-sidebar p-4">
-                                        <h3 class="sidebar-title mb-4">Summary</h3>
+                                    <div class="checkout-summary-card p-4 position-sticky" style="top: 24px;">
+                                        <h3 class="h5 fw-bold text-dark mb-4">Order Summary</h3>
 
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="text-muted small">Subtotal</span>
-                                            <span class="text-dark fw-medium small">₹<%= cart.bill %></span>
+                                            <span class="text-dark fw-semibold small">₹<%= cart.bill %></span>
                                         </div>
                                         <div class="d-flex justify-content-between mb-3">
                                             <span class="text-muted small">Estimated Shipping</span>
-                                            <span class="text-success small fw-medium">Free</span>
+                                            <span class="text-success small fw-bold">Free</span>
                                         </div>
 
-                                        <hr class="filter-divider">
+                                        <hr class="text-muted opacity-25 my-3">
 
                                         <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <span class="text-dark fw-semibold font-outfit">Total Amount</span>
-                                            <span class="cart-item-price fs-3">₹<%= cart.bill %></span>
+                                            <span class="text-dark fw-bold">Total Amount</span>
+                                            <span class="text-dark fw-black fs-4">
+                                                ₹ <%= bill%>
+                                            </span>
                                         </div>
 
-                                        <button type="submit" formaction="/checkout"
-                                            class="btn-product-submit w-100 py-3">
-                                            <span>Proceed to Checkout</span>
-                                        </button>
+                                        <a href="/checkout"
+                                            class="btn btn-checkout-primary w-100 py-3 text-center text-decoration-none d-block shadow-sm">
+                                            Proceed to Checkout
+                                        </a>
                                     </div>
                                 </div>
 
-                            </form>
+                            </div>
                             <% } else { %>
-                                <div class="text-center py-5 background-card-custom rounded p-4">
-                                    <p class="text-muted mb-3">Your shopping cart is currently empty.</p>
+                                <div class="text-center py-5 bg-white border rounded-3 p-5 shadow-sm my-4">
+                                    <div class="text-muted mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+                                            fill="currentColor" class="bi bi-cart-x text-muted opacity-50"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M7.354 5.646a.5.5 0 1 0-.708.708L7.793 7.5 6.646 8.646a.5.5 0 1 0 .708.708L8.5 8.207l1.146 1.147a.5.5 0 0 0 .708-.708L9.207 7.5l1.147-1.146a.5.5 0 0 0-.708-.708L8.5 6.793z" />
+                                            <path
+                                                d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                                        </svg>
+                                    </div>
+                                    <p class="text-muted fs-5 mb-4">Your shopping cart is currently empty.</p>
                                     <a href="/users/shop"
-                                        class="btn btn-outline-purple-custom px-4 py-2 small fw-semibold">Discover
+                                        class="btn btn-outline-purple-custom px-4 py-2 small fw-bold text-uppercase">Discover
                                         Products</a>
                                 </div>
                                 <% } %>
