@@ -12,7 +12,25 @@ router.get("/", function (req, res) {
 router.get("/users/shop", isLoggedin, async function (req, res) {
     let error = req.flash("error")
     let success = req.flash("success");
-    let products = await productModel.find();
+    let search = req.query.search || "";
+
+    let category = req.query.category || "";
+
+    let query = {};
+
+    if (category) {
+        query.category = category;
+    }
+
+    if (search) {
+        query.name = {
+            $regex: search,
+            $options: "i",
+        };
+    }
+
+    let products = await productModel.find(query);
+
     res.render("shop", { products, error, success });
 })
 

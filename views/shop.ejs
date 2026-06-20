@@ -40,10 +40,10 @@
                 <div class="filter-sidebar">
                     <div class="sidebar-title mb-4">Filters</div>
 
-                    <form action="/shop/search" method="GET" class="mb-4">
+                    <form action="/users/shop" method="GET" class="mb-4">
                         <label class="filter-label">Search Products</label>
                         <div class="search-input-wrap">
-                            <input type="text" name="query" class="form-control-custom-shop"
+                            <input type="text" name="search" class="form-control-custom-shop"
                                 placeholder="Type to search...">
                             <button type="submit" class="search-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -59,17 +59,29 @@
 
                     <div class="mb-4">
                         <label class="filter-label">Categories</label>
+
                         <div class="d-flex flex-column gap-2 mt-2">
-                            <label class="custom-check-shop">
-                                <input type="checkbox" name="category" value="electronics" checked>
-                                <span class="check-box-shop"></span>
-                                <span class="check-label-text">Electronics</span>
-                            </label>
-                            <label class="custom-check-shop">
-                                <input type="checkbox" name="category" value="apparel">
-                                <span class="check-box-shop"></span>
-                                <span class="check-label-text">Apparel & Bags</span>
-                            </label>
+
+                            <a href="/users/shop?category=Women" class="check-label-text text-decoration-none">
+                                Womens
+                            </a>
+
+                            <a href="/users/shop?category=Men" class="check-label-text text-decoration-none">
+                                Mens
+                            </a>
+
+                            <a href="/users/shop?category=Accessories" class="check-label-text text-decoration-none">
+                                Accessories
+                            </a>
+
+                            <a href="/users/shop?category=Footwear" class="check-label-text text-decoration-none">
+                                Footwear
+                            </a>
+
+                            <a href="/users/shop" class="check-label-text text-decoration-none fw-bold">
+                                All Products
+                            </a>
+
                         </div>
                     </div>
 
